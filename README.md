@@ -1,5 +1,6 @@
 # 🕯️ DOCTRINE  
 **Un juego narrativo en 2D desarrollado con HTML5 Canvas**
+**IMPORTANTE: PARA EJECUTAR CORRECTAMENTE EN EL NAVEGADOR, USAR LiveServer en VsCode**
 
 ## 🎮 Descripción general  
 *Doctrine* es una experiencia simbólica y psicológica en formato de juego 2D.  
