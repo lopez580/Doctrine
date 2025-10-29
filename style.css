@@ -1,0 +1,24 @@
+html, body {
+  background-color: black;
+  color: red;
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+canvas {
+  width: 768px;   /* 192 × 4 = 768 */
+  height: 640px;  /* 160 × 4 = 640 */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  image-rendering: -moz-crisp-edges;
+  display: block;
+  background: black;
+}
