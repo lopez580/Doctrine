@@ -53,3 +53,7 @@ Algunas funciones pueden estar simplificadas o sujetas a ajustes según tiempo y
 2. Abre la carpeta en VS Code
 3. Click derecho en `index.html` → "Open with Live Server"
 
+**O bien...**, puedes jugarlo usando la version desplegada en vercel
+Accede directamente desde el navegador, sin instalar nada:  
+ [Jugar en Vercel](https://doctrine-sigma.vercel.app/)
+
