@@ -1,6 +1,8 @@
+
 #  DOCTRINE  
 **Un juego narrativo en 2D desarrollado con HTML5 Canvas inspirado en "FAITH"**
 ![](assets/images_readme/logo.png)
+
 
 ##  Descripción general  
 *Doctrine* es una experiencia simbólica y psicológica en formato de juego 2D.  
