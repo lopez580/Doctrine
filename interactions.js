@@ -22,7 +22,7 @@ export const interactionZones = [
         ],
         hasBeenRead: false
     },
-    
+
     {
         scene: "scene1",
         x: 133,
@@ -51,10 +51,10 @@ export const interactionZones = [
     },
     {
         scene: "scene1",
-        x: 15,           // Muy a la izquierda
-        y: 50,           // Centro vertical aproximadamente
-        width: 10,       // Ancho pequeño (como una puerta)
-        height: 45,      // Alto para cubrir área de paso
+        x: 15,
+        y: 50,
+        width: 10,
+        height: 45,
         name: "exit_door",
         type: "transport",
         targetScene: "scene2",  // Nombre del siguiente escenario
@@ -89,7 +89,7 @@ export function getNearbyInteraction(playerX, playerY, playerWidth, playerHeight
         const zoneCenterY = zone.y + zone.height / 2;
 
         const distance = Math.sqrt(
-            Math.pow(playerCenterX - zoneCenterX, 2) + 
+            Math.pow(playerCenterX - zoneCenterX, 2) +
             Math.pow(playerCenterY - zoneCenterY, 2)
         );
 
@@ -103,11 +103,11 @@ export function getNearbyInteraction(playerX, playerY, playerWidth, playerHeight
 
 export function updateExitDoor() {
     const exitDoor = interactionZones.find(zone => zone.name === "exit_door");
-    
+
     if (exitDoor) {
         const allComplete = checkAllTasksComplete();
         exitDoor.locked = !allComplete;  // Desbloquea si todo está completo
-        
+
         if (!exitDoor.locked) {
             console.log("🚪 ¡Puerta desbloqueada!");
         }
@@ -139,7 +139,7 @@ export function handleInteraction(zone, callback) {
 
         case "toggleable":
             zone.isOn = !zone.isOn;
-            
+
             if (callback) {
                 const message = zone.isOn ? zone.onMessage : zone.offMessage;
                 callback({
@@ -149,7 +149,7 @@ export function handleInteraction(zone, callback) {
                     zone: zone
                 });
             }
-            
+
             // Solo actualiza progreso si se ENCENDIÓ por primera vez
             if (zone.isOn && zone.name === "tv") {
                 updateProgress('tv');
@@ -166,7 +166,7 @@ export function handleInteraction(zone, callback) {
                     hasMore: zone.currentMessage < zone.messages.length - 1,
                     zone: zone
                 });
-                
+
                 zone.currentMessage = (zone.currentMessage + 1) % zone.messages.length;
             }
             break;
@@ -186,10 +186,10 @@ export function handleInteraction(zone, callback) {
             console.log("zone.message:", zone.message);
             console.log("zone.spriteName:", zone.spriteName);
             if (typeof screamAudio !== 'undefined') {
-            window.screamAudio.currentTime = 0;
-            window.screamAudio.play();
-    }
-            
+                window.screamAudio.currentTime = 0;
+                window.screamAudio.play();
+            }
+
             if (callback) {
                 const dataToSend = {
                     type: "cutscene",
@@ -197,11 +197,11 @@ export function handleInteraction(zone, callback) {
                     spriteName: zone.spriteName,
                     zone: zone
                 };
-                
+
                 console.log("Enviando data al callback:", dataToSend);
                 callback(dataToSend);
             }
-            
+
             if (!zone.hasBeenOpened) {  // Solo actualiza si es la primera vez
                 zone.hasBeenOpened = true;
                 updateProgress('closet');
@@ -212,16 +212,16 @@ export function handleInteraction(zone, callback) {
         case "transport":
             console.log("=== TRANSPORTE ===");
             console.log("Puerta bloqueada?", zone.locked);
-            
+
             // Verifica el estado actual
             updateExitDoor();  // ← VERIFICA ANTES DE INTENTAR ABRIR
-            
+
             if (zone.locked) {
                 // Puerta bloqueada
                 if (typeof window.forzarAudio !== 'undefined') {
                     window.forzarAudio.currentTime = 0;
                     window.forzarAudio.play();
-        }
+                }
                 if (callback) {
                     callback({
                         type: "dialogue",
@@ -245,7 +245,7 @@ export function handleInteraction(zone, callback) {
 
         case "ending":
             console.log("=== ENDING ===");
-            
+
             if (callback) {
                 callback({
                     type: "ending",
@@ -262,13 +262,13 @@ export function handleInteraction(zone, callback) {
 
 export function drawInteractionIndicators(ctx, playerX, playerY, playerWidth, playerHeight, currentScene = "scene1") {
     const nearby = getNearbyInteraction(playerX, playerY, playerWidth, playerHeight, 20, currentScene);
-    
+
     if (nearby) {
         ctx.save();
-        
+
         const indicatorX = nearby.x + nearby.width / 2;
         const indicatorY = nearby.y - 8;
-        
+
         // Color diferente si es la puerta desbloqueada
         if (nearby.type === "transport" && !nearby.locked) {
             ctx.fillStyle = "#00ff00";  // Verde si está desbloqueada
@@ -277,16 +277,16 @@ export function drawInteractionIndicators(ctx, playerX, playerY, playerWidth, pl
         } else {
             ctx.fillStyle = "white";    // Blanco para otros objetos
         }
-        
+
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
         ctx.font = "8px Arial";
         ctx.textAlign = "center";
-        
+
         const text = "[E]";
         ctx.strokeText(text, indicatorX, indicatorY);
         ctx.fillText(text, indicatorX, indicatorY);
-        
+
         ctx.restore();
     }
 }
@@ -299,13 +299,13 @@ export function drawInteractionZones(ctx, currentScene = "scene1") {
     ctx.strokeStyle = "blue";
     ctx.lineWidth = 1;
     ctx.fillStyle = "rgba(0, 0, 255, 0.1)";
-    
+
     const zones = currentScene === "scene2" ? interactionZonesScene2 : interactionZones;
-    
+
     zones.forEach(zone => {
         ctx.strokeRect(zone.x, zone.y, zone.width, zone.height);
         ctx.fillRect(zone.x, zone.y, zone.width, zone.height);
-        
+
         ctx.fillStyle = "blue";
         ctx.font = "6px Arial";
         ctx.fillText(zone.name, zone.x, zone.y - 2);
